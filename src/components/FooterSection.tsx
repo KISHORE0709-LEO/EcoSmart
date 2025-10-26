@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 
 export const FooterSection = () => {
   return (
-    <footer className="gradient-eco-subtle py-16 px-4">
+    <footer id="about" className="gradient-eco-subtle py-16 px-4">
       <div className="max-w-6xl mx-auto">
         {/* Main Content */}
         <div className="text-center mb-12">

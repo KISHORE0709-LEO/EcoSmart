@@ -1,3 +1,4 @@
+import { Header } from "@/components/Header";
 import { HeroSection } from "@/components/HeroSection";
 import { ClassificationSection } from "@/components/ClassificationSection";
 import { LearnSection } from "@/components/LearnSection";
@@ -11,6 +12,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen">
+      <Header />
       <HeroSection onStartClassification={scrollToClassification} />
       <ClassificationSection />
       <LearnSection />

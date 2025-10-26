@@ -1,12 +1,18 @@
 import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
-import { Camera, Upload, Loader2 } from "lucide-react";
+import { Camera, Upload, Loader2, Lightbulb, Recycle, Sparkles } from "lucide-react";
 import { toast } from "sonner";
+import { Card } from "@/components/ui/card";
 
 interface ClassificationResult {
   category: "biodegradable" | "non-biodegradable";
   confidence: number;
   tip: string;
+  mentorAdvice: {
+    diyTutorials: string[];
+    recyclingIdeas: string[];
+    upcyclingTechniques: string[];
+  };
 }
 
 export const ClassificationSection = () => {
@@ -45,16 +51,53 @@ export const ClassificationSection = () => {
       const isBiodegradable = Math.random() > 0.5;
       const confidence = Math.floor(Math.random() * 15) + 85; // 85-100%
       
+      const biodegradableMentor = {
+        diyTutorials: [
+          "Create nutrient-rich compost for your garden",
+          "Make eco-friendly plant fertilizer at home",
+          "Build a DIY vermicomposting bin for kitchen waste"
+        ],
+        recyclingIdeas: [
+          "Use food scraps to create natural dyes",
+          "Turn fruit peels into natural cleaning solutions",
+          "Make pet-safe deodorizers from citrus waste"
+        ],
+        upcyclingTechniques: [
+          "Create decorative planters from coconut shells",
+          "Transform coffee grounds into exfoliating scrubs",
+          "Make seed paper from shredded paper waste"
+        ]
+      };
+
+      const nonBiodegradableMentor = {
+        diyTutorials: [
+          "Transform plastic bottles into self-watering planters",
+          "Create storage organizers from tin cans",
+          "Build a vertical garden using plastic containers"
+        ],
+        recyclingIdeas: [
+          "Convert glass jars into stylish candle holders",
+          "Make decorative vases from old bottles",
+          "Create mosaic art from broken ceramic pieces"
+        ],
+        upcyclingTechniques: [
+          "Turn old clothing into reusable shopping bags",
+          "Transform cardboard into desk organizers",
+          "Make jewelry from bottle caps and metal scraps"
+        ]
+      };
+      
       setResult({
         category: isBiodegradable ? "biodegradable" : "non-biodegradable",
         confidence,
         tip: isBiodegradable
           ? "This can be composted naturally. Add it to your compost bin for eco-friendly disposal."
           : "This cannot decompose naturally. Please send it to a recycling center or dispose of it properly.",
+        mentorAdvice: isBiodegradable ? biodegradableMentor : nonBiodegradableMentor
       });
       
       setIsAnalyzing(false);
-      toast.success("Analysis complete!");
+      toast.success("Analysis complete! Check out creative reuse ideas below!");
     }, 2000);
   };
 
@@ -146,7 +189,7 @@ export const ClassificationSection = () => {
 
               {/* Result Display */}
               {result ? (
-                <div className="space-y-4 animate-slide-up">
+                <div className="space-y-6 animate-slide-up">
                   <div className="text-center space-y-2">
                     <div className="text-3xl font-bold">
                       {result.category === "biodegradable" ? "🌱 Biodegradable" : "🧴 Non-Biodegradable"}
@@ -161,7 +204,66 @@ export const ClassificationSection = () => {
                     <p className="text-muted-foreground">{result.tip}</p>
                   </div>
 
-                  <div className="flex gap-4">
+                  {/* Smart Waste Mentor Section */}
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-2 text-xl font-bold">
+                      <Sparkles className="w-6 h-6 text-accent animate-pulse" />
+                      <span className="gradient-eco bg-clip-text text-transparent">Smart Waste Mentor</span>
+                    </div>
+                    <p className="text-sm text-muted-foreground">
+                      Don't just discard it - discover creative ways to reuse and repurpose!
+                    </p>
+
+                    {/* DIY Tutorials */}
+                    <Card className="p-5 border-primary/20 hover:border-primary/40 transition-all hover:shadow-lg">
+                      <div className="flex items-center gap-2 mb-3">
+                        <Lightbulb className="w-5 h-5 text-accent" />
+                        <h4 className="font-semibold text-lg">DIY Tutorials</h4>
+                      </div>
+                      <ul className="space-y-2">
+                        {result.mentorAdvice.diyTutorials.map((tutorial, idx) => (
+                          <li key={idx} className="flex items-start gap-2 text-sm">
+                            <span className="text-primary mt-1">•</span>
+                            <span className="text-muted-foreground">{tutorial}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </Card>
+
+                    {/* Recycling Ideas */}
+                    <Card className="p-5 border-primary/20 hover:border-primary/40 transition-all hover:shadow-lg">
+                      <div className="flex items-center gap-2 mb-3">
+                        <Recycle className="w-5 h-5 text-primary" />
+                        <h4 className="font-semibold text-lg">Recycling Ideas</h4>
+                      </div>
+                      <ul className="space-y-2">
+                        {result.mentorAdvice.recyclingIdeas.map((idea, idx) => (
+                          <li key={idx} className="flex items-start gap-2 text-sm">
+                            <span className="text-primary mt-1">•</span>
+                            <span className="text-muted-foreground">{idea}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </Card>
+
+                    {/* Upcycling Techniques */}
+                    <Card className="p-5 border-accent/20 hover:border-accent/40 transition-all hover:shadow-lg">
+                      <div className="flex items-center gap-2 mb-3">
+                        <Sparkles className="w-5 h-5 text-accent" />
+                        <h4 className="font-semibold text-lg">Upcycling Techniques</h4>
+                      </div>
+                      <ul className="space-y-2">
+                        {result.mentorAdvice.upcyclingTechniques.map((technique, idx) => (
+                          <li key={idx} className="flex items-start gap-2 text-sm">
+                            <span className="text-accent mt-1">•</span>
+                            <span className="text-muted-foreground">{technique}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </Card>
+                  </div>
+
+                  <div className="flex gap-4 pt-4">
                     <Button
                       variant="hero"
                       className="flex-1"

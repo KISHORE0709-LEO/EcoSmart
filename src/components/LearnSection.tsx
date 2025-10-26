@@ -35,7 +35,7 @@ export const LearnSection = () => {
   const [expandedCard, setExpandedCard] = useState<string | null>(null);
 
   return (
-    <section className="py-20 px-4 bg-background">
+    <section id="learn" className="py-20 px-4 bg-background">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16 animate-fade-in">
           <h2 className="text-4xl md:text-5xl font-bold mb-4">
