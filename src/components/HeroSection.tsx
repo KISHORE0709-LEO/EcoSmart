@@ -9,14 +9,23 @@ interface HeroSectionProps {
 export const HeroSection = ({ onStartClassification }: HeroSectionProps) => {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background Image with Overlay */}
-      <div 
-        className="absolute inset-0 bg-cover bg-center"
+      {/* Animated Background */}
+      <div className="absolute inset-0 bg-cover bg-center animate-slow-zoom"
         style={{
           backgroundImage: `url(${heroBackground})`,
         }}
-      >
-        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/50" />
+      />
+      
+      {/* Animated Gradient Overlays */}
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/30 via-transparent to-accent/20 animate-gradient" />
+      <div className="absolute inset-0 bg-gradient-to-tl from-black/50 via-black/30 to-transparent" />
+      
+      {/* Animated Particles */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute w-2 h-2 bg-primary/40 rounded-full top-1/4 left-1/4 animate-float-slow" />
+        <div className="absolute w-3 h-3 bg-accent/30 rounded-full top-1/3 right-1/4 animate-float-slower" />
+        <div className="absolute w-1.5 h-1.5 bg-primary/50 rounded-full bottom-1/3 left-1/3 animate-float-slow delay-1000" />
+        <div className="absolute w-2.5 h-2.5 bg-accent/40 rounded-full bottom-1/4 right-1/3 animate-float-slower delay-2000" />
       </div>
 
       {/* Floating Icons */}
