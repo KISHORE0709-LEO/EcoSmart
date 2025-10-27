@@ -53,7 +53,7 @@ export const ClassificationSection = () => {
       const formData = new FormData();
       formData.append("file", file);
       
-      const apiResponse = await fetch("http://127.0.0.1:5000/predict", {
+      const apiResponse = await fetch(`${import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000'}/predict`, {
         method: "POST",
         body: formData
       });

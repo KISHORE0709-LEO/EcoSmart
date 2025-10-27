@@ -23,7 +23,7 @@ dist-ssr
 *.sln
 *.sw?
 
-# Large dataset and training files
+# Large dataset files only
 dataset/
 *.zip
 ml_model/waste_classifier_model.h5
