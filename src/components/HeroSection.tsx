@@ -32,7 +32,6 @@ export const HeroSection = ({ onStartClassification }: HeroSectionProps) => {
       {/* Floating Icons - larger and more animated */}
       <div className="absolute inset-0 pointer-events-none">
         <Recycle className="absolute top-20 left-10 w-16 h-16 md:w-20 md:h-20 text-primary/40 animate-[float_3s_ease-in-out_infinite] drop-shadow-lg" />
-        <Leaf className="absolute top-40 right-20 w-20 h-20 md:w-24 md:h-24 text-accent/50 animate-[float_3s_ease-in-out_infinite_2s] drop-shadow-lg" />
         <Droplets className="absolute bottom-32 left-20 w-14 h-14 md:w-18 md:h-18 text-primary/35 animate-[float_3s_ease-in-out_infinite] drop-shadow-lg" />
         <TreePine className="absolute bottom-40 right-32 w-18 h-18 md:w-22 md:h-22 text-accent/45 animate-[float_3s_ease-in-out_infinite_2s] drop-shadow-lg" />
       </div>
@@ -79,6 +78,16 @@ export const HeroSection = ({ onStartClassification }: HeroSectionProps) => {
         <div className="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center pt-2">
           <div className="w-1.5 h-2 bg-white/70 rounded-full animate-[float_2s_ease-in-out_infinite]" />
         </div>
+      </div>
+
+      {/* Additional Floating Elements */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div className="absolute w-3 h-3 bg-yellow-400/60 rounded-full top-1/4 left-1/3 animate-[float_4s_ease-in-out_infinite_1s]" />
+        <div className="absolute w-5 h-5 bg-green-400/40 rounded-full top-3/4 right-1/4 animate-[float_6s_ease-in-out_infinite_2s]" />
+        <div className="absolute w-4 h-4 bg-yellow-300/50 rounded-full bottom-1/4 left-1/4 animate-[float_5s_ease-in-out_infinite_0.5s]" />
+        <div className="absolute w-6 h-6 bg-green-300/30 rounded-full top-1/2 right-1/3 animate-[float_7s_ease-in-out_infinite_1.5s]" />
+        <div className="absolute w-2 h-2 bg-yellow-500/70 rounded-full top-1/3 right-1/5 animate-[float_3s_ease-in-out_infinite_2.5s]" />
+        <div className="absolute w-7 h-7 bg-green-200/25 rounded-full bottom-1/3 right-1/2 animate-[float_8s_ease-in-out_infinite_0.8s]" />
       </div>
     </section>
   );

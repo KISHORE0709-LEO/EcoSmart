@@ -8,27 +8,27 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 15%;
+    --background: 123 25% 97%;
+    --foreground: 123 60% 12%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 15%;
+    --card: 123 35% 95%;
+    --card-foreground: 123 60% 12%;
 
-    --popover: 0 0% 100%;
+    --popover: 123 30% 95%;
     --popover-foreground: 0 0% 15%;
 
-    --primary: 123 46% 45%;
+    --primary: 123 50% 35%;
     --primary-foreground: 0 0% 100%;
     --primary-glow: 123 46% 65%;
 
     --secondary: 123 30% 92%;
     --secondary-foreground: 123 46% 25%;
 
-    --muted: 0 0% 96%;
+    --muted: 123 20% 96%;
     --muted-foreground: 0 0% 45%;
 
-    --accent: 54 100% 62%;
-    --accent-foreground: 0 0% 15%;
+    --accent: 54 100% 50%;
+    --accent-foreground: 123 60% 12%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
@@ -36,14 +36,14 @@ All colors MUST be HSL.
     --success: 123 46% 45%;
     --success-foreground: 0 0% 100%;
 
-    --border: 0 0% 90%;
-    --input: 0 0% 90%;
+    --border: 123 20% 85%;
+    --input: 123 20% 90%;
     --ring: 123 46% 45%;
 
     --radius: 0.75rem;
 
     --gradient-eco: linear-gradient(135deg, hsl(123 46% 45%) 0%, hsl(123 46% 65%) 100%);
-    --gradient-eco-subtle: linear-gradient(180deg, hsl(0 0% 100%) 0%, hsl(123 30% 97%) 100%);
+    --gradient-eco-subtle: linear-gradient(180deg, hsl(123 30% 96%) 0%, hsl(123 25% 92%) 100%);
     --gradient-glass: linear-gradient(135deg, hsla(0 0% 100% / 0.4) 0%, hsla(0 0% 100% / 0.1) 100%);
     
     --shadow-glass: 0 8px 32px 0 hsla(123 46% 45% / 0.15);
@@ -54,7 +54,7 @@ All colors MUST be HSL.
     --background: 0 0% 10%;
     --foreground: 0 0% 95%;
 
-    --card: 0 0% 15%;
+    --card: 123 30% 12%;
     --card-foreground: 0 0% 95%;
 
     --popover: 0 0% 15%;
@@ -67,7 +67,7 @@ All colors MUST be HSL.
     --secondary: 123 30% 20%;
     --secondary-foreground: 123 46% 85%;
 
-    --muted: 0 0% 20%;
+    --muted: 123 20% 18%;
     --muted-foreground: 0 0% 60%;
 
     --accent: 54 100% 70%;

@@ -35,10 +35,29 @@ export const LearnSection = () => {
   const [expandedCard, setExpandedCard] = useState<string | null>(null);
 
   return (
-    <section id="learn" className="py-20 px-4 bg-background">
+    <section id="learn" className="relative py-20 px-4 bg-gradient-to-br from-green-50 to-yellow-50 overflow-hidden">
+      {/* Animated Background Elements */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute w-5 h-5 bg-yellow-400/30 rounded-full top-16 right-16 animate-[float_6s_ease-in-out_infinite]" />
+        <div className="absolute w-7 h-7 bg-green-300/40 rounded-full top-1/3 left-12 animate-[float_4s_ease-in-out_infinite_1.5s]" />
+        <div className="absolute w-6 h-6 bg-yellow-300/35 rounded-full bottom-20 right-1/3 animate-[float_5s_ease-in-out_infinite_0.5s]" />
+        <div className="absolute w-8 h-8 bg-green-400/25 rounded-full top-24 left-1/4 animate-[float_5.5s_ease-in-out_infinite_2s]" />
+        <div className="absolute w-4 h-4 bg-amber-400/40 rounded-full top-2/3 right-20 animate-[float_3.5s_ease-in-out_infinite_1s]" />
+        <div className="absolute w-9 h-9 bg-yellow-500/20 rounded-full bottom-32 left-20 animate-[float_6.5s_ease-in-out_infinite_0.8s]" />
+        <div className="absolute w-3 h-3 bg-green-500/45 rounded-full top-1/2 right-1/4 animate-[float_4.2s_ease-in-out_infinite_2.2s]" />
+        <div className="absolute w-11 h-11 bg-amber-300/20 rounded-full bottom-1/4 left-1/2 animate-[float_7.5s_ease-in-out_infinite_1.8s]" />
+        <div className="absolute w-6 h-6 bg-green-600/30 rounded-full top-40 right-1/2 animate-[float_4.8s_ease-in-out_infinite_0.3s]" />
+        <div className="absolute w-2 h-2 bg-yellow-700/45 rounded-full top-12 left-1/3 animate-[float_3.2s_ease-in-out_infinite_1.4s]" />
+        <div className="absolute w-13 h-13 bg-green-200/18 rounded-full bottom-12 right-16 animate-[float_8.8s_ease-in-out_infinite_0.9s]" />
+        <div className="absolute w-7 h-7 bg-amber-600/25 rounded-full top-1/4 left-1/6 animate-[float_5.3s_ease-in-out_infinite_2.6s]" />
+        <div className="absolute w-4 h-4 bg-green-800/35 rounded-full bottom-1/3 right-1/6 animate-[float_4.1s_ease-in-out_infinite_1.1s]" />
+        <div className="absolute w-10 h-10 bg-yellow-200/22 rounded-full top-3/4 left-3/4 animate-[float_6.9s_ease-in-out_infinite_0.7s]" />
+        <div className="absolute w-5 h-5 bg-green-500/28 rounded-full top-56 left-1/5 animate-[float_4.6s_ease-in-out_infinite_2.8s]" />
+        <div className="absolute w-15 h-15 bg-amber-400/12 rounded-full bottom-8 left-3/4 animate-[float_9.7s_ease-in-out_infinite_1.9s]" />
+      </div>
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16 animate-fade-in">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">
+          <h2 className="text-4xl md:text-5xl font-bold mb-4 text-green-700">
             Know Your Waste ♻
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
@@ -67,7 +86,7 @@ export const LearnSection = () => {
                   <div className="flex items-center gap-4">
                     <div
                       className={`p-3 rounded-2xl ${
-                        type.color === "primary" ? "bg-primary/10" : "bg-destructive/10"
+                        type.color === "primary" ? "bg-yellow-100" : "bg-red-100"
                       }`}
                     >
                       <Icon

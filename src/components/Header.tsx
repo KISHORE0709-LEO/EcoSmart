@@ -13,60 +13,48 @@ export const Header = () => {
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 glass-card border-b border-border/50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16 md:h-20">
-          {/* Logo */}
-          <div className="flex items-center gap-3 cursor-pointer animate-fade-in" onClick={() => scrollToSection('hero')}>
-            <img src={logo} alt="EcoSmart Logo" className="h-10 w-10 md:h-12 md:w-12" />
-            <span className="text-xl md:text-2xl font-bold gradient-eco bg-clip-text text-transparent">
-              EcoSmart
-            </span>
-          </div>
-
+    <header className="fixed top-4 left-1/2 right-4 z-50 bg-amber-200/90 backdrop-blur-sm rounded-lg shadow-lg transform -translate-x-1/6">
+      <div className="px-6 py-4">
+        <div className="flex items-center justify-evenly w-full">
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-6">
+          <nav className="hidden md:flex items-center justify-evenly w-full gap-6">
             <button
               onClick={() => scrollToSection('hero')}
-              className="text-foreground/80 hover:text-primary transition-colors font-medium"
+              className="text-green-700 hover:text-green-900 transition-colors font-medium"
             >
               Home
             </button>
             <button
               onClick={() => scrollToSection('classify')}
-              className="text-foreground/80 hover:text-primary transition-colors font-medium"
+              className="text-green-700 hover:text-green-900 transition-colors font-medium"
             >
               Classify
             </button>
             <button
               onClick={() => scrollToSection('learn')}
-              className="text-foreground/80 hover:text-primary transition-colors font-medium"
+              className="text-green-700 hover:text-green-900 transition-colors font-medium"
             >
               Learn
             </button>
             <button
               onClick={() => scrollToSection('about')}
-              className="text-foreground/80 hover:text-primary transition-colors font-medium"
+              className="text-green-700 hover:text-green-900 transition-colors font-medium"
             >
               About
             </button>
-          </nav>
-
-          {/* Auth Buttons */}
-          <div className="hidden md:flex items-center gap-3">
-            <Button variant="ghost" size="sm">
+            <Button variant="ghost" size="sm" onClick={() => window.location.href = '/login'}>
               <LogIn className="mr-2 h-4 w-4" />
               Login
             </Button>
-            <Button variant="eco-action" size="sm">
+            <Button variant="eco-action" size="sm" onClick={() => window.location.href = '/profile'}>
               <User className="mr-2 h-4 w-4" />
               Profile
             </Button>
-          </div>
+          </nav>
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden p-2"
+            className="md:hidden p-2 text-green-700"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
             {isMenuOpen ? (
@@ -79,28 +67,28 @@ export const Header = () => {
 
         {/* Mobile Menu */}
         {isMenuOpen && (
-          <div className="md:hidden py-4 space-y-3 animate-slide-down border-t border-border/50">
+          <div className="md:hidden py-4 space-y-3 animate-slide-down border-t border-green-300/30">
             <button
               onClick={() => scrollToSection('hero')}
-              className="block w-full text-left px-4 py-2 text-foreground/80 hover:text-primary hover:bg-muted/50 rounded-lg transition-colors"
+              className="block w-full text-left px-4 py-2 text-green-700 hover:text-green-900 hover:bg-green-100/50 rounded-lg transition-colors"
             >
               Home
             </button>
             <button
               onClick={() => scrollToSection('classify')}
-              className="block w-full text-left px-4 py-2 text-foreground/80 hover:text-primary hover:bg-muted/50 rounded-lg transition-colors"
+              className="block w-full text-left px-4 py-2 text-green-700 hover:text-green-900 hover:bg-green-100/50 rounded-lg transition-colors"
             >
               Classify
             </button>
             <button
               onClick={() => scrollToSection('learn')}
-              className="block w-full text-left px-4 py-2 text-foreground/80 hover:text-primary hover:bg-muted/50 rounded-lg transition-colors"
+              className="block w-full text-left px-4 py-2 text-green-700 hover:text-green-900 hover:bg-green-100/50 rounded-lg transition-colors"
             >
               Learn
             </button>
             <button
               onClick={() => scrollToSection('about')}
-              className="block w-full text-left px-4 py-2 text-foreground/80 hover:text-primary hover:bg-muted/50 rounded-lg transition-colors"
+              className="block w-full text-left px-4 py-2 text-green-700 hover:text-green-900 hover:bg-green-100/50 rounded-lg transition-colors"
             >
               About
             </button>

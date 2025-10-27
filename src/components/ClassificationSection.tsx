@@ -45,11 +45,20 @@ export const ClassificationSection = () => {
 
     setIsAnalyzing(true);
     
-    // Simulate AI processing
-    setTimeout(() => {
-      // Mock classification - randomly choose category for demo
-      const isBiodegradable = Math.random() > 0.5;
-      const confidence = Math.floor(Math.random() * 15) + 85; // 85-100%
+    try {
+      const response = await fetch(selectedImage);
+      const blob = await response.blob();
+      const file = new File([blob], "waste-image.jpg", { type: "image/jpeg" });
+      
+      const formData = new FormData();
+      formData.append("file", file);
+      
+      const apiResponse = await fetch("http://127.0.0.1:5000/predict", {
+        method: "POST",
+        body: formData
+      });
+      
+      const prediction = await apiResponse.json();
       
       const biodegradableMentor = {
         diyTutorials: [
@@ -88,17 +97,21 @@ export const ClassificationSection = () => {
       };
       
       setResult({
-        category: isBiodegradable ? "biodegradable" : "non-biodegradable",
-        confidence,
-        tip: isBiodegradable
+        category: prediction.category,
+        confidence: prediction.confidence,
+        tip: prediction.category === "biodegradable"
           ? "This can be composted naturally. Add it to your compost bin for eco-friendly disposal."
           : "This cannot decompose naturally. Please send it to a recycling center or dispose of it properly.",
-        mentorAdvice: isBiodegradable ? biodegradableMentor : nonBiodegradableMentor
+        mentorAdvice: prediction.category === "biodegradable" ? biodegradableMentor : nonBiodegradableMentor
       });
       
-      setIsAnalyzing(false);
       toast.success("Analysis complete! Check out creative reuse ideas below!");
-    }, 2000);
+    } catch (error) {
+      toast.error("Failed to analyze image. Please try again.");
+      console.error("Prediction error:", error);
+    } finally {
+      setIsAnalyzing(false);
+    }
   };
 
   const resetClassification = () => {
@@ -110,10 +123,28 @@ export const ClassificationSection = () => {
   };
 
   return (
-    <section id="classify" className="min-h-screen py-20 px-4 gradient-eco-subtle">
+    <section id="classify" className="relative min-h-screen py-20 px-4 bg-gradient-to-br from-yellow-50 to-green-50 overflow-hidden">
+      {/* Animated Background Elements */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute w-6 h-6 bg-green-300/30 rounded-full top-20 left-10 animate-[float_4s_ease-in-out_infinite]" />
+        <div className="absolute w-8 h-8 bg-yellow-300/40 rounded-full top-32 right-20 animate-[float_5s_ease-in-out_infinite_1s]" />
+        <div className="absolute w-4 h-4 bg-green-400/50 rounded-full bottom-40 left-1/4 animate-[float_3s_ease-in-out_infinite_2s]" />
+        <div className="absolute w-10 h-10 bg-amber-200/35 rounded-full top-1/2 left-16 animate-[float_6s_ease-in-out_infinite_0.5s]" />
+        <div className="absolute w-5 h-5 bg-green-500/25 rounded-full top-60 right-1/3 animate-[float_4.5s_ease-in-out_infinite_1.5s]" />
+        <div className="absolute w-7 h-7 bg-yellow-400/30 rounded-full bottom-60 right-12 animate-[float_5.5s_ease-in-out_infinite_2.5s]" />
+        <div className="absolute w-3 h-3 bg-green-600/40 rounded-full top-1/3 left-1/2 animate-[float_3.5s_ease-in-out_infinite_1s]" />
+        <div className="absolute w-9 h-9 bg-amber-300/25 rounded-full bottom-1/3 left-1/3 animate-[float_7s_ease-in-out_infinite]" />
+        <div className="absolute w-2 h-2 bg-yellow-500/50 rounded-full top-16 left-1/3 animate-[float_2.8s_ease-in-out_infinite_0.9s]" />
+        <div className="absolute w-12 h-12 bg-green-200/20 rounded-full bottom-20 right-1/4 animate-[float_8.5s_ease-in-out_infinite_1.7s]" />
+        <div className="absolute w-4 h-4 bg-amber-500/35 rounded-full top-3/4 left-20 animate-[float_4.3s_ease-in-out_infinite_2.1s]" />
+        <div className="absolute w-6 h-6 bg-green-700/25 rounded-full top-28 right-1/2 animate-[float_5.7s_ease-in-out_infinite_0.6s]" />
+        <div className="absolute w-8 h-8 bg-yellow-600/20 rounded-full bottom-1/2 left-1/5 animate-[float_6.8s_ease-in-out_infinite_1.3s]" />
+        <div className="absolute w-5 h-5 bg-green-400/40 rounded-full top-1/4 right-1/5 animate-[float_4.9s_ease-in-out_infinite_2.4s]" />
+        <div className="absolute w-14 h-14 bg-amber-100/15 rounded-full bottom-16 left-1/2 animate-[float_9.2s_ease-in-out_infinite_0.2s]" />
+      </div>
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-12 animate-fade-in">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">
+          <h2 className="text-4xl md:text-5xl font-bold mb-4 text-green-700">
             Upload Waste Image for Classification
           </h2>
           <p className="text-lg text-muted-foreground">
