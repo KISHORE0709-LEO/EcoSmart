@@ -30,7 +30,15 @@ cd backend
 # Install Python dependencies
 pip install flask flask-cors tensorflow pillow numpy
 
+# Train the model first (creates waste_classifier_model.h5)
+cd ../ml_model
+python train_model.py
+
+# Copy model to backend
+copy waste_classifier_model.h5 ../backend/
+
 # Start Flask server
+cd ../backend
 python app.py
 ```
 
@@ -49,8 +57,16 @@ python app.py
 
 ### Training
 ```bash
+# Download dataset using kagglehub
 cd ml_model
+pip install kagglehub
+python download_dataset.py
+
+# Train the model
 python train_model.py
+
+# Copy to backend for API use
+copy waste_classifier_model.h5 ../backend/
 ```
 
 ## 🛠️ Tech Stack
