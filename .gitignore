@@ -23,9 +23,10 @@ dist-ssr
 *.sln
 *.sw?
 
-# Large dataset files only
+# Large dataset and training files
 dataset/
 *.zip
+ml_model/waste_classifier_model.h5
 
 # Python
 __pycache__/
