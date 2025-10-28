@@ -1,5 +1,6 @@
 import { Github, Linkedin, Mail, Leaf } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ContactForm } from "@/components/ContactForm";
 
 export const FooterSection = () => {
   return (
@@ -79,6 +80,11 @@ export const FooterSection = () => {
               Contact
             </a>
           </div>
+        </div>
+
+        {/* Contact Form */}
+        <div className="mt-12">
+          <ContactForm />
         </div>
 
         {/* Extra Info */}

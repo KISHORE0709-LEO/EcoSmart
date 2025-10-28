@@ -4,9 +4,23 @@ from tensorflow.keras.models import load_model
 from PIL import Image
 import numpy as np
 import io
+import os
+import urllib.request
 
 app = Flask(__name__)
 CORS(app)
+
+# Download real model if not exists or if it's the small dummy one
+if not os.path.exists("waste_classifier_model.h5") or os.path.getsize("waste_classifier_model.h5") < 100000000:
+    print("Downloading REAL trained model (228MB)...")
+    # Your real 228MB model from Google Drive
+    model_url = "https://drive.google.com/uc?id=1T4smYplUdpWZZksrHf0SW8ltkfK2NLqI&export=download"
+    try:
+        urllib.request.urlretrieve(model_url, "waste_classifier_model.h5")
+        print("Real model downloaded successfully!")
+    except Exception as e:
+        print(f"Failed to download model: {e}")
+        print("Using fallback model...")
 
 # Load trained model
 model = load_model("waste_classifier_model.h5")
