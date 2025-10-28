@@ -1,17 +1,19 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
+import { getAnalytics } from 'firebase/analytics';
 
 const firebaseConfig = {
-  // Replace with your actual Firebase config from Firebase Console
-  apiKey: process.env.VITE_FIREBASE_API_KEY || "demo-api-key",
-  authDomain: process.env.VITE_FIREBASE_AUTH_DOMAIN || "ecosmart-demo.firebaseapp.com",
-  projectId: process.env.VITE_FIREBASE_PROJECT_ID || "ecosmart-demo",
-  storageBucket: process.env.VITE_FIREBASE_STORAGE_BUCKET || "ecosmart-demo.appspot.com",
-  messagingSenderId: process.env.VITE_FIREBASE_MESSAGING_SENDER_ID || "123456789",
-  appId: process.env.VITE_FIREBASE_APP_ID || "demo-app-id"
+  apiKey: "AIzaSyDgZMzdaoI0AEVJqkZ8ZBE2NWa1rvkh69Q",
+  authDomain: "ecosmart-513a8.firebaseapp.com",
+  projectId: "ecosmart-513a8",
+  storageBucket: "ecosmart-513a8.firebasestorage.app",
+  messagingSenderId: "488515876324",
+  appId: "1:488515876324:web:dd641955d93a2f07be43f1",
+  measurementId: "G-G1CQQZSH9P"
 };
 
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
+export const analytics = getAnalytics(app);
