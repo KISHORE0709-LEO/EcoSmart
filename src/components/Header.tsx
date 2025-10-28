@@ -13,11 +13,11 @@ export const Header = () => {
   };
 
   return (
-    <header className="fixed top-4 left-1/2 right-4 z-50 bg-amber-200/90 backdrop-blur-sm rounded-lg shadow-lg transform -translate-x-1/6">
+    <header className="fixed top-4 left-1/2 right-4 z-50 bg-amber-200/90 backdrop-blur-sm rounded-lg shadow-lg transform -translate-x-1/6" role="banner">
       <div className="px-6 py-4">
         <div className="flex items-center justify-evenly w-full">
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center justify-evenly w-full gap-6">
+          <nav className="hidden md:flex items-center justify-evenly w-full gap-6" role="navigation" aria-label="Main navigation">
             <button
               onClick={() => scrollToSection('hero')}
               className="text-green-700 hover:text-green-900 transition-colors font-medium"
@@ -56,6 +56,8 @@ export const Header = () => {
           <button
             className="md:hidden p-2 text-green-700"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
+            aria-label="Toggle mobile menu"
+            aria-expanded={isMenuOpen}
           >
             {isMenuOpen ? (
               <X className="h-6 w-6" />

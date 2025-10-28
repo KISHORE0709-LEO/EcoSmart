@@ -123,7 +123,7 @@ export const ClassificationSection = () => {
   };
 
   return (
-    <section id="classify" className="relative min-h-screen py-20 px-4 bg-gradient-to-br from-yellow-50 to-green-50 overflow-hidden">
+    <section id="classify" className="relative min-h-screen py-20 px-4 bg-gradient-to-br from-yellow-50 to-green-50 overflow-hidden" role="main" aria-label="Waste Classification Section">
       {/* Animated Background Elements */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute w-6 h-6 bg-green-300/30 rounded-full top-20 left-10 animate-[float_4s_ease-in-out_infinite]" />
@@ -144,7 +144,7 @@ export const ClassificationSection = () => {
       </div>
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-12 animate-fade-in">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 text-green-700">
+          <h2 className="text-4xl md:text-5xl font-bold mb-4 text-green-700" role="heading" aria-level="2">
             Upload Waste Image for Classification
           </h2>
           <p className="text-lg text-muted-foreground">
@@ -167,7 +167,7 @@ export const ClassificationSection = () => {
           {!selectedImage ? (
             <div className="space-y-6">
               <div className="border-2 border-dashed border-border rounded-2xl p-12 text-center hover:border-primary/50 transition-colors">
-                <Upload className="w-16 h-16 mx-auto mb-4 text-muted-foreground" />
+                <Upload className="w-16 h-16 mx-auto mb-4 text-muted-foreground" aria-hidden="true" />
                 <p className="text-lg font-semibold mb-2">Drop your image here</p>
                 <p className="text-sm text-muted-foreground mb-6">or click to browse</p>
                 
@@ -178,6 +178,7 @@ export const ClassificationSection = () => {
                   onChange={handleImageUpload}
                   className="hidden"
                   id="file-upload"
+                  aria-label="Upload waste image for classification"
                 />
                 
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -213,9 +214,14 @@ export const ClassificationSection = () => {
               <div className="relative rounded-2xl overflow-hidden shadow-elevated">
                 <img
                   src={selectedImage}
-                  alt="Uploaded waste"
+                  alt="Uploaded waste item for classification analysis"
                   className="w-full h-auto max-h-96 object-cover"
+                  role="img"
+                  aria-describedby="image-description"
                 />
+                <div id="image-description" className="sr-only">
+                  Image uploaded for waste classification. The AI will analyze this image to determine if the waste is biodegradable or non-biodegradable.
+                </div>
               </div>
 
               {/* Result Display */}

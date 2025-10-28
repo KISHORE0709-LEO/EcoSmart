@@ -3,6 +3,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { toast } from "sonner";
+import { db } from "@/lib/firebase";
+import { collection, addDoc } from "firebase/firestore";
 
 export const ContactForm = () => {
   const [formData, setFormData] = useState({
@@ -21,17 +23,17 @@ export const ContactForm = () => {
     }
 
     try {
-      const response = await fetch("/api/feedback", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData)
+      // Save to Firebase Firestore
+      await addDoc(collection(db, "feedback"), {
+        ...formData,
+        timestamp: new Date(),
+        status: "new"
       });
       
-      if (response.ok) {
-        toast.success("Feedback sent successfully!");
-        setFormData({ name: "", email: "", message: "" });
-      }
+      toast.success("Feedback sent successfully!");
+      setFormData({ name: "", email: "", message: "" });
     } catch (error) {
+      console.error("Error saving feedback:", error);
       toast.error("Failed to send feedback");
     }
   };
@@ -41,17 +43,23 @@ export const ContactForm = () => {
   };
 
   return (
-    <Card className="p-6 max-w-md mx-auto">
-      <h3 className="text-2xl font-bold mb-4 text-green-700">Contact Us</h3>
-      <form onSubmit={handleSubmit} className="space-y-4">
+    <Card className="p-6 max-w-md mx-auto" role="form" aria-labelledby="contact-form-title">
+      <h3 id="contact-form-title" className="text-2xl font-bold mb-4 text-green-700">Contact Us</h3>
+      <form onSubmit={handleSubmit} className="space-y-4" aria-describedby="form-description">
+        <div id="form-description" className="sr-only">
+          Use this form to send us your feedback about the EcoSmart waste classifier.
+        </div>
         <Input
           type="text"
           placeholder="Your Name"
           value={formData.name}
           onChange={(e) => handleInputChange("name", e.target.value)}
           required
+          aria-label="Your full name"
+          aria-describedby="name-help"
           className={formData.name ? "border-green-500" : ""}
         />
+        <div id="name-help" className="sr-only">Enter your full name for contact purposes</div>
         <Input
           type="email"
           placeholder="Email"
