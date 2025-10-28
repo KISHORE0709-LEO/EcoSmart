@@ -2,6 +2,6 @@ services:
   - type: web
     name: ecosmart-backend
     env: python
-    buildCommand: "cd backend && pip install -r requirements.txt"
+    buildCommand: "pip install --upgrade pip && cd backend && pip install -r requirements.txt"
     startCommand: "cd backend && python app.py"
     plan: free
