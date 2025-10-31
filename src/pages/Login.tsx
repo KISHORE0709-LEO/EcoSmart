@@ -1,19 +1,70 @@
+/* 
+ * WEB FORM WITH VALIDATION:
+ * - Login form with email/password validation
+ * - Real-time validation with visual feedback
+ * - Firebase Auth integration for user authentication
+ * 
+ * JAVASCRIPT ES6+ FEATURES:
+ * - Async/await: Firebase authentication
+ * - Destructuring: Form data handling
+ * - Template literals: Dynamic error messages
+ */
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
-import { Leaf, Mail, Lock, Eye, EyeOff } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Mail, Lock, Eye, EyeOff, User } from "lucide-react";
+import { auth, db } from "@/lib/firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 export const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [isRegisterMode, setIsRegisterMode] = useState(false);
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle login logic here
-    console.log("Login:", { email, password });
+    setIsLoading(true);
+    setError("");
+    
+    try {
+      if (isRegisterMode) {
+        // Register new user
+        const { createUserWithEmailAndPassword, updateProfile } = await import('firebase/auth');
+        const { doc, setDoc } = await import('firebase/firestore');
+        
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        
+        await updateProfile(userCredential.user, {
+          displayName: name
+        });
+        
+        await setDoc(doc(db, "users", userCredential.user.uid), {
+          name: name,
+          email: email,
+          createdAt: new Date().toISOString(),
+          stats: {
+            itemsClassified: 0,
+            ecoPoints: 0,
+            streakDays: 0,
+            level: "Beginner"
+          }
+        });
+      } else {
+        // Login existing user
+        await signInWithEmailAndPassword(auth, email, password);
+      }
+      
+      window.location.href = "/profile";
+    } catch (error: any) {
+      setError(isRegisterMode ? "Registration failed. Please try again." : "Invalid email or password");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -29,14 +80,33 @@ export const Login = () => {
         {/* Logo */}
         <div className="text-center mb-8">
           <div className="flex items-center justify-center gap-3 mb-4">
-            <Leaf className="w-10 h-10 text-green-600" />
+            <img src="/biodegradable_logo.png" alt="EcoSmart Logo" className="w-10 h-10" />
             <h1 className="text-3xl font-bold text-green-800">EcoSmart</h1>
           </div>
-          <p className="text-gray-600">Welcome back to sustainable living</p>
+          <h2 className="text-2xl font-bold text-green-800 mb-2">{isRegisterMode ? "Create Account" : "Sign In"}</h2>
+          <div>
+          </div>
+          <p className="text-gray-600">{isRegisterMode ? "Join the sustainable living community" : "Welcome back to sustainable living"}</p>
         </div>
 
-        {/* Login Form */}
-        <form onSubmit={handleLogin} className="space-y-6">
+        {/* Login/Register Form */}
+        <form onSubmit={handleSubmit} className="space-y-6">
+          {isRegisterMode && (
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-gray-700">Full Name</label>
+              <div className="relative">
+                <User className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
+                <Input
+                  type="text"
+                  placeholder="Enter your full name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className="pl-10 h-12"
+                  required={isRegisterMode}
+                />
+              </div>
+            </div>
+          )}
           <div className="space-y-2">
             <label className="text-sm font-medium text-gray-700">Email</label>
             <div className="relative">
@@ -74,21 +144,27 @@ export const Login = () => {
             </div>
           </div>
 
-          <Button type="submit" className="w-full h-12 bg-green-600 hover:bg-green-700">
-            Sign In
+          {error && <p className="text-red-500 text-sm text-center">{error}</p>}
+          
+          <Button type="submit" className="w-full h-12 bg-green-600 hover:bg-green-700" disabled={isLoading}>
+            {isLoading ? (isRegisterMode ? "Creating Account..." : "Signing In...") : (isRegisterMode ? "Create Account" : "Sign In")}
           </Button>
         </form>
 
-        {/* Links */}
-        <div className="mt-6 text-center space-y-4">
-          <Link to="/forgot-password" className="text-sm text-green-600 hover:underline">
-            Forgot your password?
-          </Link>
+        {/* Toggle Mode */}
+        <div className="mt-6 text-center">
           <div className="text-sm text-gray-600">
-            Don't have an account?{" "}
-            <Link to="/register" className="text-green-600 hover:underline font-medium">
-              Sign up
-            </Link>
+            {isRegisterMode ? "Already have an account?" : "Don't have an account?"}{" "}
+            <button
+              type="button"
+              onClick={() => {
+                setIsRegisterMode(!isRegisterMode);
+                setError("");
+              }}
+              className="text-green-600 hover:underline font-medium"
+            >
+              {isRegisterMode ? "Sign In" : "Sign Up"}
+            </button>
           </div>
         </div>
       </Card>

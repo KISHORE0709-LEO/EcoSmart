@@ -28,7 +28,7 @@ export const FooterSection = () => {
         <div className="text-center mb-12">
           {/* Logo */}
           <div className="flex items-center justify-center gap-3 mb-6">
-            <Leaf className="w-10 h-10 text-primary" />
+            <img src="/biodegradable_logo.png" alt="EcoSmart Logo" className="w-10 h-10" />
             <h3 className="text-3xl font-bold text-green-700">EcoSmart</h3>
           </div>
 

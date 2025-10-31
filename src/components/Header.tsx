@@ -1,10 +1,46 @@
-import { useState } from "react";
+/* 
+ * CSS3 & RESPONSIVE DESIGN:
+ * - Flexbox: Navigation layout, mobile menu
+ * - Media queries: Mobile-first responsive design
+ * - Transitions: Hover effects, smooth animations
+ * 
+ * ACCESSIBILITY (POUR):
+ * - Keyboard navigation: Tab order, focus management
+ * - ARIA labels: aria-expanded, aria-label for screen readers
+ * - Semantic HTML: <nav>, role="navigation"
+ * 
+ * JAVASCRIPT FUNDAMENTALS:
+ * - Event handling: onClick, smooth scrolling
+ * - DOM manipulation: scrollIntoView, getElementById
+ * - State management: Mobile menu toggle
+ */
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Menu, X, User, LogIn } from "lucide-react";
-import logo from "@/assets/ecosmart-logo.png";
+import { Menu, X, User, LogIn, LogOut } from "lucide-react";
+import { auth } from "@/lib/firebase";
+import { onAuthStateChanged, signOut } from "firebase/auth";
+import { ThemeToggle } from "@/components/ThemeToggle";
+
 
 export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [user, setUser] = useState<any>(null);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+    return () => unsubscribe();
+  }, []);
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      window.location.href = "/";
+    } catch (error) {
+      console.error("Error signing out:", error);
+    }
+  };
 
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
@@ -13,43 +49,53 @@ export const Header = () => {
   };
 
   return (
-    <header className="fixed top-4 left-1/2 right-4 z-50 bg-amber-200/90 backdrop-blur-sm rounded-lg shadow-lg transform -translate-x-1/6" role="banner">
+    <header className="fixed top-4 left-1/2 right-4 z-50 bg-amber-200/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-lg shadow-lg transform -translate-x-1/6" role="banner">
       <div className="px-6 py-4">
         <div className="flex items-center justify-evenly w-full">
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center justify-evenly w-full gap-6" role="navigation" aria-label="Main navigation">
             <button
               onClick={() => scrollToSection('hero')}
-              className="text-green-700 hover:text-green-900 transition-colors font-medium"
+              className="text-green-700 hover:text-green-900 dark:text-green-400 dark:hover:text-green-300 transition-colors font-medium"
             >
               Home
             </button>
             <button
               onClick={() => scrollToSection('classify')}
-              className="text-green-700 hover:text-green-900 transition-colors font-medium"
+              className="text-green-700 hover:text-green-900 dark:text-green-400 dark:hover:text-green-300 transition-colors font-medium"
             >
               Classify
             </button>
             <button
               onClick={() => scrollToSection('learn')}
-              className="text-green-700 hover:text-green-900 transition-colors font-medium"
+              className="text-green-700 hover:text-green-900 dark:text-green-400 dark:hover:text-green-300 transition-colors font-medium"
             >
               Learn
             </button>
             <button
               onClick={() => scrollToSection('about')}
-              className="text-green-700 hover:text-green-900 transition-colors font-medium"
+              className="text-green-700 hover:text-green-900 dark:text-green-400 dark:hover:text-green-300 transition-colors font-medium"
             >
               About
             </button>
-            <Button variant="ghost" size="sm" onClick={() => window.location.href = '/login'}>
-              <LogIn className="mr-2 h-4 w-4" />
-              Login
-            </Button>
-            <Button variant="eco-action" size="sm" onClick={() => window.location.href = '/profile'}>
-              <User className="mr-2 h-4 w-4" />
-              Profile
-            </Button>
+            <ThemeToggle />
+            {user ? (
+              <>
+                <Button variant="eco-action" size="sm" onClick={() => window.location.href = '/profile'}>
+                  <User className="mr-2 h-4 w-4" />
+                  Profile
+                </Button>
+                <Button variant="ghost" size="sm" onClick={handleLogout}>
+                  <LogOut className="mr-2 h-4 w-4" />
+                  Logout
+                </Button>
+              </>
+            ) : (
+              <Button variant="ghost" size="sm" onClick={() => window.location.href = '/login'}>
+                <LogIn className="mr-2 h-4 w-4" />
+                Login
+              </Button>
+            )}
           </nav>
 
           {/* Mobile Menu Button */}
@@ -95,14 +141,23 @@ export const Header = () => {
               About
             </button>
             <div className="flex gap-2 px-4 pt-2">
-              <Button variant="ghost" size="sm" className="flex-1">
-                <LogIn className="mr-2 h-4 w-4" />
-                Login
-              </Button>
-              <Button variant="eco-action" size="sm" className="flex-1">
-                <User className="mr-2 h-4 w-4" />
-                Profile
-              </Button>
+              {user ? (
+                <>
+                  <Button variant="eco-action" size="sm" className="flex-1" onClick={() => window.location.href = '/profile'}>
+                    <User className="mr-2 h-4 w-4" />
+                    Profile
+                  </Button>
+                  <Button variant="ghost" size="sm" className="flex-1" onClick={handleLogout}>
+                    <LogOut className="mr-2 h-4 w-4" />
+                    Logout
+                  </Button>
+                </>
+              ) : (
+                <Button variant="ghost" size="sm" className="flex-1" onClick={() => window.location.href = '/login'}>
+                  <LogIn className="mr-2 h-4 w-4" />
+                  Login
+                </Button>
+              )}
             </div>
           </div>
         )}

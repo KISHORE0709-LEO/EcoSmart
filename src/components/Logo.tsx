@@ -1,6 +1,17 @@
+/* 
+ * ACCESSIBILITY (POUR):
+ * - Alt text: Descriptive alt attribute for logo image
+ * - Semantic HTML: Proper image element usage
+ * - Interactive elements: Clickable logo with cursor pointer
+ * 
+ * JAVASCRIPT FUNDAMENTALS:
+ * - Event handling: onClick for smooth scrolling
+ * - DOM manipulation: scrollIntoView for navigation
+ */
 import logo from "/biodegradable_logo.png";
 
 export const Logo = () => {
+  // DOM manipulation: getElementById and scrollIntoView
   const scrollToHero = () => {
     const element = document.getElementById('hero');
     element?.scrollIntoView({ behavior: "smooth" });
