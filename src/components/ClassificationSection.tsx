@@ -97,45 +97,33 @@ export const ClassificationSection = () => {
     let prediction;
     
     try {
-      // Try ML backend first
-      const response = await fetch(selectedImage);
-      const blob = await response.blob();
-      const file = new File([blob], "waste-image.jpg", { type: "image/jpeg" });
+      console.log("🌐 Using TensorFlow.js in browser...");
       
-      const formData = new FormData();
-      formData.append("file", file);
+      // Create image element for TensorFlow.js
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
       
-      const backendUrl = import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000';
-      console.log("🔗 Backend URL:", backendUrl);
-      console.log("📤 Sending to ML backend...");
-      
-      const apiResponse = await fetch(`${backendUrl}/predict`, {
-        method: "POST",
-        body: formData
+      const imageLoadPromise = new Promise((resolve, reject) => {
+        img.onload = () => resolve(img);
+        img.onerror = reject;
+        img.src = selectedImage;
       });
       
-      console.log("📡 Response status:", apiResponse.status);
+      await imageLoadPromise;
       
-      if (!apiResponse.ok) {
-        throw new Error(`Backend error: ${apiResponse.status}`);
-      }
+      // Import and use TensorFlow.js model
+      const { predictWaste } = await import('@/utils/modelLoader');
+      prediction = await predictWaste(img);
       
-      prediction = await apiResponse.json();
-      console.log("🤖 ML Response:", prediction);
-      
-      // Check if using real model or fallback
-      if (prediction.source) {
-        console.log("📊 Prediction source:", prediction.source);
-      }
-      
-      toast.success("✅ Using REAL AI Model!");
+      console.log("🤖 TensorFlow.js Response:", prediction);
+      toast.success("✅ Using TensorFlow.js Model in Browser!");
       
     } catch (error) {
-      console.error("❌ ML Backend failed:", error);
+      console.error("❌ TensorFlow.js failed:", error);
       // Use fallback with forced variation
       prediction = getFallbackClassification("waste-image.jpg");
       console.log("🔄 Using fallback:", prediction);
-      toast.error("⚠️ Backend unavailable - using demo mode");
+      toast.error("⚠️ Model loading failed - using demo mode");
     }
     
     try {
