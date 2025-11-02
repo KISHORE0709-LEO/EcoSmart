@@ -15,7 +15,10 @@ export const loadModel = async (): Promise<tf.LayersModel> => {
     // Load model directly in browser
     model = await tf.loadLayersModel(modelUrl);
     console.log('✅ Model loaded successfully!');
-    console.log('Model input shape:', model.inputs[0].shape);
+    console.log('📊 Model input shape:', model.inputs[0].shape);
+    console.log('📊 Model output shape:', model.outputs[0].shape);
+    console.log('🏷️ Model name:', model.name);
+    console.log('⚙️ Total parameters:', model.countParams());
     
     return model;
   } catch (error) {
@@ -45,7 +48,12 @@ export const predictWaste = async (imageElement: HTMLImageElement): Promise<{
     const predValue = await prediction.data();
     const confidence = predValue[0];
     
-    console.log('🤖 Raw prediction:', confidence);
+    console.log('🤖 Raw prediction value:', confidence);
+    console.log('📈 Prediction details:', {
+      rawValue: confidence,
+      category: confidence < 0.5 ? 'biodegradable' : 'non-biodegradable',
+      confidence: confidence < 0.5 ? (1 - confidence) * 100 : confidence * 100
+    });
     
     // Binary classification: < 0.5 = biodegradable, >= 0.5 = non-biodegradable
     const category = confidence < 0.5 ? 'biodegradable' : 'non-biodegradable';
