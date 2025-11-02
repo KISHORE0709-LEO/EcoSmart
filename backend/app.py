@@ -5,22 +5,29 @@ from PIL import Image
 import numpy as np
 import io
 import os
+import urllib.request
+import random
 
 app = Flask(__name__)
 CORS(app)
 
-# Load your trained model
+# Download and load model
 try:
-    if os.path.exists("waste_classifier_model.h5"):
-        model = load_model("waste_classifier_model.h5")
-        print("Your trained model loaded successfully!")
-        print(f"Model input shape: {model.input_shape}")
-        print(f"Model output shape: {model.output_shape}")
-    else:
-        print("Model file not found. Using fallback classification.")
-        model = None
+    model_path = "waste_classifier_model.h5"
+    
+    # Download model if not exists or too small (placeholder)
+    if not os.path.exists(model_path) or os.path.getsize(model_path) < 100000000:  # 100MB
+        print("Downloading REAL trained model (228MB)...")
+        model_url = "https://drive.google.com/uc?id=1T4smYplUdpWZZksrHf0SW8ltkfK2NLqI&export=download"
+        urllib.request.urlretrieve(model_url, model_path)
+        print("Real model downloaded successfully!")
+    
+    model = load_model(model_path)
+    print("✅ REAL trained model loaded successfully!")
+    print(f"Model input shape: {model.input_shape}")
+    print(f"Model output shape: {model.output_shape}")
 except Exception as e:
-    print(f"Error loading model: {e}")
+    print(f"❌ Error loading model: {e}")
     print("Using fallback classification.")
     model = None
 
@@ -47,7 +54,8 @@ def predict():
             
             result = {
                 "category": category,
-                "confidence": round(confidence, 2)
+                "confidence": round(confidence, 2),
+                "source": "fallback_random"
             }
             print(f"Fallback result: {result}")
             return jsonify(result)
@@ -111,7 +119,9 @@ def predict():
             "category": category,
             "confidence": round(confidence, 2),
             "object_name": object_name,
-            "reason": reason
+            "reason": reason,
+            "source": "real_model",
+            "model_prediction": float(prediction_value)
         }
         
         print(f"FINAL RESULT: {result}")
