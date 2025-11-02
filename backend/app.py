@@ -83,32 +83,22 @@ def predict():
         # From your training: class_indices should show which folder maps to which index
         # Typically: B (biodegradable) = 0, N (non-biodegradable) = 1
         
-        # Binary classification with sigmoid: < 0.5 = class 0, >= 0.5 = class 1
+        # FLIPPED CLASSES - Model was trained with opposite mapping
         if prediction_value < 0.5:
-            # Model predicts class 0 - check if this is biodegradable or non-biodegradable
-            category = "biodegradable"  # Assuming class 0 = biodegradable
+            # Model predicts class 0 - but this is actually NON-biodegradable
+            category = "non-biodegradable"
             confidence = (1 - prediction_value) * 100
-            object_name = "Organic waste"
-            detailed_reason = f"CNN model classified this as biodegradable with {confidence:.1f}% confidence. The neural network detected patterns typical of organic materials that decompose naturally."
-        else:
-            # Model predicts class 1
-            category = "non-biodegradable"  # Assuming class 1 = non-biodegradable
-            confidence = prediction_value * 100
             object_name = "Synthetic material"
             detailed_reason = f"CNN model classified this as non-biodegradable with {confidence:.1f}% confidence. The neural network detected patterns typical of synthetic materials that resist decomposition."
+        else:
+            # Model predicts class 1 - but this is actually biodegradable
+            category = "biodegradable"
+            confidence = prediction_value * 100
+            object_name = "Organic waste"
+            detailed_reason = f"CNN model classified this as biodegradable with {confidence:.1f}% confidence. The neural network detected patterns typical of organic materials that decompose naturally."
         
-        # If model is consistently wrong, try flipping the classes
-        # Uncomment these lines if potato shows as non-biodegradable:
-        # if prediction_value >= 0.5:
-        #     category = "biodegradable"
-        #     confidence = prediction_value * 100
-        #     object_name = "Organic waste"
-        #     detailed_reason = f"CNN model (class-flipped) classified this as biodegradable with {confidence:.1f}% confidence."
-        # else:
-        #     category = "non-biodegradable"
-        #     confidence = (1 - prediction_value) * 100
-        #     object_name = "Synthetic material"
-        #     detailed_reason = f"CNN model (class-flipped) classified this as non-biodegradable with {confidence:.1f}% confidence."
+        # Classes have been flipped above to match training data
+        # Training data: B folder = index 1, N folder = index 0
         
         reason = f"Identified as: {object_name}. {detailed_reason}"
         
