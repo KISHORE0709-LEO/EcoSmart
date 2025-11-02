@@ -107,7 +107,8 @@ export const ClassificationSection = () => {
       
       const backendUrl = import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000';
       console.log("🔗 Backend URL:", backendUrl);
-      console.log("📤 Sending to YOUR trained model backend...");
+      console.log("🎯 Using Hugging Face backend");
+      console.log("📤 Sending to Hugging Face backend...");
       
       const apiResponse = await fetch(`${backendUrl}/predict`, {
         method: "POST",
