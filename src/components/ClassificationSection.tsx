@@ -80,10 +80,17 @@ export const ClassificationSection = () => {
     } else if (nonBiodegradableKeywords.some(keyword => lowerFilename.includes(keyword))) {
       return { category: 'non-biodegradable', confidence: Math.random() * 20 + 80 };
     } else {
-      // Random classification for demo purposes
-      return Math.random() > 0.5 
-        ? { category: 'biodegradable', confidence: Math.random() * 30 + 70 }
-        : { category: 'non-biodegradable', confidence: Math.random() * 30 + 70 };
+      // Force more non-biodegradable results (75% non-bio, 25% bio)
+      const hash = filename.split('').reduce((a, b) => {
+        a = ((a << 5) - a) + b.charCodeAt(0);
+        return a & a;
+      }, 0);
+      
+      if (Math.abs(hash) % 4 === 0) {  // 25% biodegradable
+        return { category: 'biodegradable', confidence: Math.random() * 20 + 70 };
+      } else {  // 75% non-biodegradable
+        return { category: 'non-biodegradable', confidence: Math.random() * 20 + 75 };
+      }
     }
   };
 
