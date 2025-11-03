@@ -116,6 +116,8 @@ export const ClassificationSection = () => {
       console.log("🔗 Backend URL:", backendUrl);
       console.log("🎯 Using Hugging Face backend");
       console.log("📤 Sending to Hugging Face backend...");
+      console.log("📁 File size:", file.size, "bytes");
+      console.log("📁 File type:", file.type);
       
       const apiResponse = await fetch(`${backendUrl}/predict`, {
         method: "POST",
@@ -139,10 +141,13 @@ export const ClassificationSection = () => {
       
     } catch (error) {
       console.error("❌ Backend failed:", error);
+      console.error("❌ Error details:", error.message);
+      console.error("❌ Backend URL was:", backendUrl);
+      
       // Use fallback
       prediction = getFallbackClassification("waste-image.jpg");
       console.log("🔄 Using fallback:", prediction);
-      toast.error("⚠️ Backend unavailable - using demo mode");
+      toast.error("⚠️ YOUR MODEL BACKEND FAILED - Fix Hugging Face Space!");
     }
     
     try {
