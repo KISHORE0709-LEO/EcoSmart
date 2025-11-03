@@ -13,13 +13,25 @@ try:
     import numpy as np
     
     model_path = "waste_classifier_model.h5"
+    print(f"Looking for model at: {model_path}")
+    print(f"Current directory: {os.getcwd()}")
+    print(f"Files in current directory: {os.listdir('.')}")
+    
     if os.path.exists(model_path):
-        model = load_model(model_path)
-        print("✅ YOUR actual trained model loaded!")
-        MODEL_SOURCE = "your_trained_model"
-        HAS_MODEL = True
+        print(f"Model file found! Size: {os.path.getsize(model_path)} bytes")
+        try:
+            model = load_model(model_path)
+            print("✅ YOUR actual trained model loaded successfully!")
+            MODEL_SOURCE = "your_trained_model"
+            HAS_MODEL = True
+        except Exception as load_error:
+            print(f"❌ Error loading model: {load_error}")
+            model = None
+            MODEL_SOURCE = "model_load_failed"
+            HAS_MODEL = False
     else:
         print("⚠️ Model file not found - using intelligent fallback")
+        print(f"Expected path: {os.path.abspath(model_path)}")
         model = None
         MODEL_SOURCE = "intelligent_fallback"
         HAS_MODEL = False
