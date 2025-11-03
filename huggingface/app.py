@@ -20,15 +20,36 @@ try:
     if os.path.exists(model_path):
         print(f"Model file found! Size: {os.path.getsize(model_path)} bytes")
         try:
-            model = load_model(model_path)
+            # Try loading with different methods
+            print("Attempting to load model...")
+            model = load_model(model_path, compile=False)
             print("✅ YOUR actual trained model loaded successfully!")
+            
+            # Test the model with a dummy prediction
+            test_input = np.random.random((1, 150, 150, 3))
+            test_pred = model.predict(test_input, verbose=0)
+            print(f"Model test prediction: {test_pred[0][0]:.6f}")
+            
             MODEL_SOURCE = "your_trained_model"
             HAS_MODEL = True
+            
         except Exception as load_error:
             print(f"❌ Error loading model: {load_error}")
-            model = None
-            MODEL_SOURCE = "model_load_failed"
-            HAS_MODEL = False
+            print(f"❌ Error type: {type(load_error).__name__}")
+            
+            # Try alternative loading method
+            try:
+                print("Trying alternative loading method...")
+                import tensorflow as tf
+                model = tf.keras.models.load_model(model_path, compile=False)
+                print("✅ Model loaded with alternative method!")
+                MODEL_SOURCE = "your_trained_model_alt"
+                HAS_MODEL = True
+            except Exception as alt_error:
+                print(f"❌ Alternative loading also failed: {alt_error}")
+                model = None
+                MODEL_SOURCE = "model_load_failed"
+                HAS_MODEL = False
     else:
         print("⚠️ Model file not found - using intelligent fallback")
         print(f"Expected path: {os.path.abspath(model_path)}")
